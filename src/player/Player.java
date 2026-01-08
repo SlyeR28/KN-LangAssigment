@@ -1,17 +1,11 @@
 package player;
 
-
 import inventory.Inventory;
 import inventory.Item;
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 
 public class Player {
     private String name;
     private Inventory inventory;
-
-
 
     public Player(String name) {
         this.name = name;
@@ -33,5 +27,4 @@ public class Player {
     public boolean hasItem(String itemName) {
         return inventory.hasItem(itemName);
     }
-
 }

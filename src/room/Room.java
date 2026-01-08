@@ -1,9 +1,7 @@
 package room;
 
-import lombok.Setter;
 import puzzles.Puzzles;
 import inventory.Item;
-import lombok.Getter;
 import player.Player;
 
 import java.util.ArrayList;
@@ -15,62 +13,66 @@ public class Room {
     private String roomName;
     private String roomDescription;
     private List<Item> items = new ArrayList<>();
-    private Map<String , Room> exits = new HashMap<>();
-    @Setter
+    private Map<String, Room> exits = new HashMap<>();
     private Puzzles puzzle;
-    @Getter
     private boolean locked = true;
-
 
     public Room(String roomName, String roomDescription) {
         this.roomName = roomName;
         this.roomDescription = roomDescription;
     }
 
+    public void setPuzzle(Puzzles puzzle) {
+        this.puzzle = puzzle;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
     public void enterRoom(Player player) {
         System.out.println("Entering room " + roomName);
         System.out.println(roomDescription);
 
-        if(locked) {
+        if (locked) {
             System.out.println("the door is locked ..Solve the puzzle ");
             tryUnlock(player);
         }
     }
 
     private void tryUnlock(Player player) {
-        if(puzzle == null){
+        if (puzzle == null) {
             locked = false;
             return;
         }
-        if(puzzle.solve(player)) {
+        if (puzzle.solve(player)) {
             locked = false;
             System.out.println("the door is unlocked ..");
-        }else{
+        } else {
             System.out.println("the door is  locked ..");
         }
     }
 
-
-    public void showDetails(){
+    public void showDetails() {
         System.out.println(roomDescription);
 
-        if(items.isEmpty()){
+        if (items.isEmpty()) {
             System.out.println("There is no items in this room");
-        }else{
+        } else {
             System.out.println("There are " + items.size() + " items in this room");
             items.forEach(System.out::println);
         }
 
-        System.out.println("Exits" +exits.keySet());
+        System.out.println("Exits" + exits.keySet());
     }
 
-    public void addItem(Item item){
+    public void addItem(Item item) {
         items.add(item);
     }
 
-    public Item RemoveItem(String itemName){
+    public Item RemoveItem(String itemName) {
         for (Item i : items) {
-            if(i.getItemName().equalsIgnoreCase(itemName)){
+            if (i.getItemName().equalsIgnoreCase(itemName)) {
                 items.remove(i);
                 return i;
             }
@@ -78,11 +80,11 @@ public class Room {
         return null;
     }
 
-    public void addExit(String direction , Room room){
+    public void addExit(String direction, Room room) {
         exits.put(direction, room);
     }
 
-    public Room getNextRoom(String direction){
+    public Room getNextRoom(String direction) {
         return exits.get(direction);
     }
 }
